@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define BOYUT 15
+
+int main(void) {
+    int dizi[BOYUT];
+    int sayildi[BOYUT] = {0}; // aynı elemanı tekrar tekrar raporlamamak için işaretleme
+
+    srand((unsigned int)time(NULL));
+    for (int i = 0; i < BOYUT; i++)
+        dizi[i] = rand() % 9 + 1; // 1-9 arası rastgele değer
+
+    printf("Dizi elemanlari: ");
+    for (int i = 0; i < BOYUT; i++)
+        printf("%d ", dizi[i]);
+    printf("\n\n");
+
+    printf("Yinelenen elemanlar ve frekanslari:\n");
+
+    int yinelemeVarMi = 0;
+
+    for (int i = 0; i < BOYUT; i++) {
+        if (sayildi[i]) {
+            continue; // bu eleman daha önce işlendi, atla
+        }
+
+        int frekans = 1;
+        for (int j = i + 1; j < BOYUT; j++) {
+            if (dizi[j] == dizi[i]) {
+                frekans++;
+                sayildi[j] = 1; // aynı değere sahip diğer indeksleri işaretle
+            }
+        }
+
+        if (frekans > 1) {
+            printf("%d elemani %d kez tekrarlaniyor\n", dizi[i], frekans);
+            yinelemeVarMi = 1;
+        }
+
+        sayildi[i] = 1;
+    }
+
+    if (!yinelemeVarMi) {
+        printf("Dizide yinelenen eleman bulunamadi.\n");
+    }
+
+    return 0;
+}
